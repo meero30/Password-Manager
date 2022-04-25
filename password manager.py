@@ -1,4 +1,5 @@
 import sys
+import os
 class Person:
     num_of_people = 0
     def __init__(self):
@@ -40,9 +41,22 @@ class File_rw:
     def write_on_file(file_name,data):
 
         with open(file_name, mode = "a") as file:
-            file.write(f"{data} |")
+            file.write(f"{data}\n")
         
+    @staticmethod
+    def read_file(file_name):
+        
+        with open(file_name, mode = "r") as file:
+            database = file.readlines()
+            return(database)
 
+    @staticmethod
+    def clear_file(file_name):
+        if os.path.exists(file_name) == True:
+            file = open(file_name, mode="w")
+            file.close()
+        else: 
+            print(f"Error: {file_name} does not exist")
     
 
 
@@ -62,6 +76,10 @@ class File_rw:
 # person1 = Person()
 # person1.create_new_acc()
 # person1.get_token()
-#File_rw.create_file("sample.db")
 
-File_rw.write_on_file("sample.db", "Miro 123")
+# File_rw.create_file("Database.db")
+# File_rw.write_on_file("Database.db", "samplemail@fake.com")
+# File_rw.write_on_file("Database.db", "samplemail2@fake.com")
+
+File_rw.read_file("Database.db")
+File_rw.clear_file("Datafase.db")
