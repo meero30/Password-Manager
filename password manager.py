@@ -62,10 +62,24 @@ class File_rw:
 class Crypt:
     @staticmethod
     # Caesar cipher with Ascii from 33 to 126
-    def encrypt(data, key):
-        
+    def caesar_cipher(data, key, mode):
+        # encrypt mode is the default, put "d" if output is decrypt
+        if mode == "d":
+            key = (-1) * key
         alist = []
-        for c in data:
+        # This will iterate through the string, checking if the sum of ord(c) and key are within the bounds
+        # If it isnt, then there's two equations that it will go through
+        # let b be the upper bound and a be the lower bound
+        # Equation 1 (sum_key > 126): The first quantity basically gets the difference of ord(c) and the upper bound
+        # this will yield the number of shifts that is outside of the boundaries
+        # Next is the number after 126, which is 33, since the shifting from 126 to 33 is counted as one shift. we get ((b-1) + key) or ((a-1) + key)
+        # in which the key is the number of times the cipher shifts
+        # we then get the sum
+        # the same proccess can be done for decrypting, except that the difference of ord(c) and key should be the comparison for conditional statements
+        # the second quantity should also be changed to ((b-1) - key) or ((a-1) - key)
+        # this can be achieved by negating the original sign of the key. 
+
+        for c in data:            
             sum_key = ord(c) + key
             if sum_key > 126: #upper bound
                 num = (ord(c) - 126) + (32 + key)
@@ -79,22 +93,7 @@ class Crypt:
         #print("".join(alist))
         return("".join(alist))
 
-    @staticmethod
-    def decrypt(data, key):
-        alist = []
-        for c in data:
-            diff_key = ord(c) - key
-            if diff_key > 126: #upper bound
-                num = (ord(c) - 126) + (32 - key)
-                alist.append(chr(num))
-            elif diff_key < 33: #lower bound
-                num = (ord(c) - 33) + (127 - key)
-                alist.append(chr(num))
-            else:
-                num = diff_key
-                alist.append(chr(num))
-        #print("".join(alist))
-        return("".join(alist))
+
 
 #I: 124 key:4
 #num = ord(c) - 126 + (33 + key) Equation
@@ -120,5 +119,5 @@ class Crypt:
 
 # File_rw.read_file("Database.db")
 # File_rw.clear_file("Datafase.db")
-Crypt.encrypt("Miro", 93)
-Crypt.decrypt("Lhqn", 93)
+print(Crypt.caesar_cipher(Crypt.caesar_cipher("Miro", -4, "e"), -4,"d"))
+
