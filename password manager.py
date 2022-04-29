@@ -59,8 +59,45 @@ class File_rw:
             print(f"Error: {file_name} does not exist")
     
 
+class Crypt:
+    @staticmethod
+    # Caesar cipher with Ascii from 33 to 126
+    def encrypt(data, key):
+        
+        alist = []
+        for c in data:
+            sum_key = ord(c) + key
+            if sum_key > 126: #upper bound
+                num = (ord(c) - 126) + (32 + key)
+                alist.append(chr(num))
+            elif sum_key < 33: #lower bound
+                num = (ord(c) - 33) + (127 + key)
+                alist.append(chr(num))
+            else:
+                num = sum_key
+                alist.append(chr(num))
+        #print("".join(alist))
+        return("".join(alist))
 
+    @staticmethod
+    def decrypt(data, key):
+        alist = []
+        for c in data:
+            diff_key = ord(c) - key
+            if diff_key > 126: #upper bound
+                num = (ord(c) - 126) + (32 - key)
+                alist.append(chr(num))
+            elif diff_key < 33: #lower bound
+                num = (ord(c) - 33) + (127 - key)
+                alist.append(chr(num))
+            else:
+                num = diff_key
+                alist.append(chr(num))
+        #print("".join(alist))
+        return("".join(alist))
 
+#I: 124 key:4
+#num = ord(c) - 126 + (33 + key) Equation
 
 # class Vault:
 #     def __init__(self):
@@ -81,5 +118,7 @@ class File_rw:
 # File_rw.write_on_file("Database.db", "samplemail@fake.com")
 # File_rw.write_on_file("Database.db", "samplemail2@fake.com")
 
-File_rw.read_file("Database.db")
-File_rw.clear_file("Datafase.db")
+# File_rw.read_file("Database.db")
+# File_rw.clear_file("Datafase.db")
+Crypt.encrypt("Miro", 93)
+Crypt.decrypt("Lhqn", 93)
